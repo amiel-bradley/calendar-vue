@@ -2,8 +2,15 @@
 import { ref, watch } from "vue";
 import HeaderComp from "@/components/HeaderComp.vue";
 import MainComp from "@/components/MainComp.vue";
-const jour = ref("Friday");
-const tabTasks = ref(
+
+/* --- Etat principal --- */
+const jour = ref("Monday");
+const isEdit = ref(false);
+const currentId = ref("");
+const isShow = ref(false);
+
+/* --- Tableau principal (avec localStorage) --- */
+const days = ref(
   JSON.parse(localStorage.getItem("tabTasks")) || [
     { name: "Monday", tasks: [] },
     { name: "Tuesday", tasks: [] },
@@ -12,32 +19,83 @@ const tabTasks = ref(
     { name: "Friday", tasks: [] },
     { name: "Saturday", tasks: [] },
     { name: "Sunday", tasks: [] },
-  ],
+  ]
 );
 
-// const tab = ref(JSON.parse(localStorage.getItem("savedTasks")) || []);
+/* --- Sauvegarde auto localStorage --- */
+watch(
+  days,
+  (newVal) => {
+    localStorage.setItem("tabTasks", JSON.stringify(newVal));
+  },
+  { deep: true }
+);
 
+/* --- Ajouter une tâche depuis Header --- */
 function addtask(newtask) {
-  let day = tabTasks.value.find((a) => {
-    return a.name === jour.value;
-  });
-
+  const day = days.value.find((d) => d.name === jour.value);
   if (!day) return;
+
   day.tasks.push(newtask);
+}
 
-  localStorage.setItem("tabTasks", JSON.stringify(tabTasks.value));
+/* --- Edit task --- */
+function edit(id) {
+  isEdit.value = true;
+  currentId.value = id;
+}
 
-  console.log(tabTasks.value);
+/* --- Changer jour sélectionné --- */
+function receive(name) {
+  jour.value = name;
+}
+
+/* --- Ouvrir modal --- */
+function showw() {
+  isShow.value = true;
 }
 </script>
 
 <template>
   <header>
-    <HeaderComp @task="addtask"></HeaderComp>
+    <HeaderComp
+      :isShow="isShow"
+      :jour="jour"
+      @task="addtask"
+    />
   </header>
+
   <main>
-    <MainComp></MainComp>
+    <MainComp
+      @modifier="edit"
+      :tab="days"
+      @envoie="receive"
+      @show="showw"
+    />
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+main {
+  background-color: #f1f5f9;
+  min-height: calc(100vh - 80px);
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 1rem;
+  }
+}
+</style>
