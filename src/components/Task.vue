@@ -41,8 +41,60 @@ const props = defineProps({
 
 
 <style scoped>
-div svg {
-    width: 10px;
-    height: 10px;
+/* Le conteneur de la tâche */
+div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  margin-bottom: 4px;
+}
+
+div:hover {
+  background-color: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Le texte de la tâche */
+span {
+  flex-grow: 1;
+  margin: 0 12px;
+  font-size: 0.9rem;
+  color: #374151;
+  font-weight: 500;
+  cursor: default;
+}
+
+/* Style commun pour les SVGs */
+svg {
+  width: 18px;  /* Taille plus lisible */
+  height: 18px;
+  cursor: pointer;
+  transition: transform 0.1s ease, stroke 0.2s, fill 0.2s;
+  flex-shrink: 0;
+}
+
+svg:active {
+  transform: scale(0.9);
+}
+
+svg:first-of-type {
+  stroke: #9ca3af;
+}
+svg:first-of-type:hover {
+  stroke: #2563eb; /* Bleu au survol */
+}
+
+/* Icône Supprimer (Fill) */
+.icon-supp {
+  fill: #9ca3af;
+}
+.icon-supp:hover {
+  fill: #dc2626; /* Rouge au survol */
 }
 </style>
