@@ -1,15 +1,15 @@
 <script setup>
 import NavBar from "./components/NavBar.vue";
-import Agenda from "./views/Agenda.vue";
+// import Agenda from "./views/Agenda.vue";
 </script>
 
 <template>
-  <Agenda />
+  <!-- <Agenda /> -->
   <header>
     <NavBar></NavBar>
   </header>
   <main>
-    <!-- <RouterView></RouterView> -->
+    <RouterView></RouterView>
   </main>
 </template>
 
