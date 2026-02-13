@@ -1,6 +1,7 @@
 <script setup>
 import MainComp from './components/MainComp.vue';
 import NavBar from './components/NavBar.vue';
+import Agenda from './views/Agenda.vue';
 </script>
 
 
@@ -10,7 +11,7 @@ import NavBar from './components/NavBar.vue';
   </header>
   <main>
     <RouterView></RouterView>
-    <MainComp></MainComp>
+    <Agenda></Agenda>
   </main>
 </template>
 

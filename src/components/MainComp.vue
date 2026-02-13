@@ -1,17 +1,17 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue';
 import Task from './Task.vue';
+const props = defineProps({
+    tab: Array
+})
 
-const days = ref([
-    { name: 'Monday', tasks: [] },
-    { name: 'Tuesday', tasks: [] },
-    { name: 'Wednesday', tasks: [] },
-    { name: 'Thursday', tasks: [] },
-    { name: 'Friday', tasks: [] },
-    { name: 'Saturday', tasks: [] },
-    { name: 'Sunday', tasks: [] }
-])
-const emit = defineEmits(['edit'])
+const days = ref([...props.tab])
+
+watch(() => props.tab, (newVal) => {
+  days.value = [...newVal];
+});
+
+const emit = defineEmits(['modifier', 'envoie'])
 
 function addTask(day) {
     day.tasks.push({
@@ -19,13 +19,16 @@ function addTask(day) {
         title: 'Nouvelle tâche',
     })
 }
-function modif(task){
-  emit('edit', task)  
+function modif(id){
+  emit('modifier', id)
 }
 function supp(id) {
   days.value.forEach(day => {
     day.tasks = day.tasks.filter(t => t.id !== id)
   })
+}
+function send(day){
+  emit('envoie', day)
 }
 
 </script>
@@ -33,10 +36,10 @@ function supp(id) {
 <template>
   <div class="week-container">
     <div v-for="day in days" :key="day.name" class="day-column">
-      <h3>{{ day.name }}</h3>      
+      <h3 @click="send(day.name)">{{ day.name }}</h3>      
       <ul>
         <li v-for="task in day.tasks" :key="task.id">
-          <Task :task="task" @edit="modif(task)" @supp="supp"></Task>
+          <Task :task="task" @edit="modif" @supp="supp"></Task>
         </li>
       </ul>
       <button class="add-btn" @click="addTask(day)">
@@ -45,8 +48,6 @@ function supp(id) {
     </div>
   </div>
 </template>
-
-
 
 <style scoped>
 

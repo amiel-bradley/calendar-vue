@@ -1,16 +1,27 @@
 <script setup>
 import { ref } from 'vue';
-import HeaderComp from './components/HeaderComp.vue';
-import MainComp from './components/MainComp.vue';
+import HeaderComp from '@/components/HeaderComp.vue';
+import MainComp from '@/components/MainComp.vue';
 
-const tabTasks = ref([
-    {id: 1, title: 'Tâche', day: 'Monday'}
+const jour = ref('')
+const days = ref([
+  { name: 'Monday', tasks: [] },
+  { name: 'Tuesday', tasks: [] },
+  { name: 'Wednesday', tasks: [] },
+  { name: 'Thursday', tasks: [] },
+  { name: 'Friday', tasks: [] },
+  { name: 'Saturday', tasks: [] },
+  { name: 'Sunday', tasks: [] }
 ])
 const isEdit = ref(false);
-function edit(){
+const currentId = ref('')
+function edit(id) {
   isEdit.value = true
+  currentId.value = id
 }
-
+function receive(name) {
+  jour.value = name
+}
 </script>
 
 
@@ -19,7 +30,7 @@ function edit(){
     <HeaderComp></HeaderComp>
   </header>
   <main>
-    <MainComp @edit="edit"></MainComp>
+    <MainComp @modifier="edit" :tab="days" @envoie="receive" />
   </main>
 </template>
 

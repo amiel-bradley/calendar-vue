@@ -1,10 +1,10 @@
 <script setup>
 const emit = defineEmits(['edit', 'supp'])
-function supp(id) {
-    emit('supp', id)
+function supp() {
+    emit('supp', props.task.id)
 }
-function modif() {
-    emit('edit')
+function modif(id){
+  emit('edit', id)
 }
 const props = defineProps({
     task: Object
@@ -27,7 +27,7 @@ const props = defineProps({
         </svg>
         <span>{{ task.title }}</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 1024 1024" class="icon"
-            version="1.1" @click="supp(task.id)">
+            version="1.1" @click="supp">
             <path
                 d="M905.92 237.76a32 32 0 0 0-52.48 36.48A416 416 0 1 1 96 512a418.56 418.56 0 0 1 297.28-398.72 32 32 0 1 0-18.24-61.44A480 480 0 1 0 992 512a477.12 477.12 0 0 0-86.08-274.24z"
                 fill="#231815" />
