@@ -1,49 +1,79 @@
 <script setup>
-import { ref } from 'vue';
-import HeaderComp from '@/components/HeaderComp.vue';
-import MainComp from '@/components/MainComp.vue';
+import { ref, watch } from "vue";
+import HeaderComp from "@/components/HeaderComp.vue";
+import MainComp from "@/components/MainComp.vue";
 
-const jour = ref('Monday')
-const days = ref([
-  { name: 'Monday', tasks: [] },
-  { name: 'Tuesday', tasks: [] },
-  { name: 'Wednesday', tasks: [] },
-  { name: 'Thursday', tasks: [] },
-  { name: 'Friday', tasks: [] },
-  { name: 'Saturday', tasks: [] },
-  { name: 'Sunday', tasks: [] }
-])
+/* --- Etat principal --- */
+const jour = ref("Monday");
 const isEdit = ref(false);
-const currentId = ref('')
-const isShow = ref(false)
+const currentId = ref("");
+const isShow = ref(false);
+
+/* --- Tableau principal (avec localStorage) --- */
+const days = ref(
+  JSON.parse(localStorage.getItem("tabTasks")) || [
+    { name: "Monday", tasks: [] },
+    { name: "Tuesday", tasks: [] },
+    { name: "Wednesday", tasks: [] },
+    { name: "Thursday", tasks: [] },
+    { name: "Friday", tasks: [] },
+    { name: "Saturday", tasks: [] },
+    { name: "Sunday", tasks: [] },
+  ]
+);
+
+/* --- Sauvegarde auto localStorage --- */
+watch(
+  days,
+  (newVal) => {
+    localStorage.setItem("tabTasks", JSON.stringify(newVal));
+  },
+  { deep: true }
+);
+
+/* --- Ajouter une tâche depuis Header --- */
+function addtask(newtask) {
+  const day = days.value.find((d) => d.name === jour.value);
+  if (!day) return;
+
+  day.tasks.push(newtask);
+}
+
+/* --- Edit task --- */
 function edit(id) {
-  isEdit.value = true
-  currentId.value = id
+  isEdit.value = true;
+  currentId.value = id;
 }
+
+/* --- Changer jour sélectionné --- */
 function receive(name) {
-  jour.value = name
+  jour.value = name;
 }
+
+/* --- Ouvrir modal --- */
 function showw() {
-  isShow.value = true
+  isShow.value = true;
 }
 </script>
 
-
 <template>
   <header>
-    <HeaderComp 
-    :isShow="isShow" 
-    :jour="jour" />
+    <HeaderComp
+      :isShow="isShow"
+      :jour="jour"
+      @task="addtask"
+    />
   </header>
+
   <main>
-    <MainComp 
-    @modifier="edit" 
-    :tab="days" 
-    @envoie="receive" 
-    @show="showw" />
+    <MainComp
+      @modifier="edit"
+      :tab="days"
+      @envoie="receive"
+      @show="showw"
+    />
   </main>
 </template>
-
 
 <style scoped>
 header {
@@ -56,7 +86,7 @@ header {
 }
 
 main {
-  background-color: #f1f5f9; 
+  background-color: #f1f5f9;
   min-height: calc(100vh - 80px);
   padding: 2rem;
   display: flex;

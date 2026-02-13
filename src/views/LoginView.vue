@@ -7,7 +7,7 @@
 <template>
 
 
-
+<LoginView/>
 </template>
 
 

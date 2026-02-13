@@ -1,95 +1,145 @@
-<script setup>
+<script>
+import { useRoute } from "vue-router";
+import authServices from "@/services/authServices";
 
+export default {
+  setup() {
+    const route = useRoute();
 
-</script>
-<script setup>
-import { useRouter } from 'vue-router'
+    // filteredNav réactif selon la route
+    const filteredNav = authServices.getFilteredNav(route.path);
 
-const router = useRouter()
-
-function logout() {
-  localStorage.removeItem('token')
-  localStorage.removeItem('userId')
-  router.push({ name: 'login' })
-}
+    return {
+      filteredNav,
+      isLoggedIn: authServices.isLoggedIn,
+      login1: authServices.login1,
+      logout: authServices.logout,
+    };
+  },
+};
 </script>
 
 <template>
-  <nav class="nav-main">
-    <div class="nav-logo">
-      <RouterLink to="/">📅 App</RouterLink>
-    </div>
+  <nav class="navbar">
     <div class="nav-links">
-      <RouterLink to="/" class="nav-item">Home</RouterLink>
-      <RouterLink :to="{ name: 'agenda' }" class="nav-item">Agenda</RouterLink>
-      <RouterLink to="/login" class="nav-item">Login</RouterLink>
-      <RouterLink :to="{ name: 'register' }" class="nav-item">Register</RouterLink>
-      <button @click="logout" class="logout-btn">Logout</button>
+      <router-link
+        v-for="x in filteredNav"
+        :key="x.to"
+        :to="x.to"
+        class="nav-link"
+        active-class="active"
+      >
+        {{ x.name }}
+      </router-link>
+    </div>
+
+    <div class="auth-buttons">
+      <router-link to="/login" v-if="!isLoggedIn" class="btn-auth btn-login">
+        Se connecter
+      </router-link>
+      <router-link to="/" v-if="isLoggedIn" class="btn-auth btn-login">
+        Se déconnecter
+      </router-link>
+      <!-- <button v-if="!isLoggedIn" @click="login1" class="btn-auth btn-login">
+        Se connecter
+      </button> -->
+
+      <!-- <button v-if="isLoggedIn" @click="logout" class="btn-auth btn-logout">
+        Se déconnecter
+      </button> -->
     </div>
   </nav>
 </template>
 
 <style scoped>
-.nav-main {
+.navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* liens à gauche, boutons à droite */
   align-items: center;
-  padding: 0 40px;
-  height: 70px;
+  padding: 16px 32px;
   background-color: #ffffff;
-  border-bottom: 1px solid #eeeeee;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.nav-logo a {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #2c3e50;
-  text-decoration: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .nav-links {
   display: flex;
-  align-items: center;
-  gap: 25px;
+  gap: 28px;
 }
 
-.nav-item {
+.nav-link {
   text-decoration: none;
-  color: #64748b;
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: color 0.2s;
+  font-size: 18px;
+  font-weight: 500;
+  color: #444;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
-.nav-item:hover, 
-.router-link-active {
-  color: #2ecc71;
+.nav-link:hover {
+  color: #2563eb;
 }
 
-.logout-btn {
-  background-color: #f8fafc;
-  color: #ef4444; 
-  border: 1px solid #f1f5f9;
-  padding: 8px 16px;
+.nav-link.active {
+  color: #2563eb;
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background-color: #2563eb;
+  border-radius: 2px;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-auth {
+  padding: 8px 18px;
   border-radius: 6px;
-  font-weight: 600;
+  border: none;
   cursor: pointer;
-  transition: all 0.2s;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.logout-btn:hover {
-  background-color: #fef2f2;
-  border-color: #fee2e2;
-  transform: translateY(-1px);
+.btn-login {
+  background-color: #2563eb;
+  color: #fff;
 }
 
+.btn-login:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-logout {
+  background-color: #dc2626;
+  color: #fff;
+}
+
+.btn-logout:hover {
+  background-color: #b91c1c;
+}
+
+/* Responsive mobile */
 @media (max-width: 768px) {
-  .nav-main {
-    padding: 0 20px;
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
+
   .nav-links {
-    gap: 15px;
+    flex-wrap: wrap;
+    gap: 16px;
   }
 }
 </style>
