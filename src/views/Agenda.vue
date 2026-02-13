@@ -1,10 +1,15 @@
 <script setup>
+import { ref } from 'vue';
 import HeaderComp from './components/HeaderComp.vue';
 import MainComp from './components/MainComp.vue';
 
-const tabTasks = [
+const tabTasks = ref([
     {id: 1, title: 'Tâche', day: 'Monday'}
-]
+])
+const isEdit = ref(false);
+function edit(){
+  isEdit.value = true
+}
 
 </script>
 
@@ -14,7 +19,7 @@ const tabTasks = [
     <HeaderComp></HeaderComp>
   </header>
   <main>
-    <MainComp></MainComp>
+    <MainComp @edit="edit"></MainComp>
   </main>
 </template>
 

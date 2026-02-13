@@ -1,4 +1,5 @@
 <script setup>
+import MainComp from './components/MainComp.vue';
 import NavBar from './components/NavBar.vue';
 </script>
 
@@ -9,6 +10,7 @@ import NavBar from './components/NavBar.vue';
   </header>
   <main>
     <RouterView></RouterView>
+    <MainComp></MainComp>
   </main>
 </template>
 
