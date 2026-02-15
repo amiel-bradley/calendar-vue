@@ -1,4 +1,5 @@
 <script setup>
+import NavBar from '@/components/NavBar.vue';
 import HeaderComp from './components/HeaderComp.vue';
 import MainComp from './components/MainComp.vue';
 
@@ -10,6 +11,7 @@ const tabTasks = [
 
 
 <template>
+  <NavBar/>
   <header>
     <HeaderComp></HeaderComp>
   </header>
