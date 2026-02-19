@@ -44,9 +44,15 @@ export default {
         Se connecter
       </button> -->
 
+<<<<<<< HEAD
       <!-- <button v-if="isLoggedIn" @click="logout" class="btn-auth btn-logout">
         Se déconnecter
       </button> -->
+=======
+      <button v-if="isLoggedIn" @click="logout" class="btn-auth btn-logout">
+        Se déconnecter
+      </button>
+>>>>>>> 0270a28c925d518f8f56ad9f6f628844261b42dc
     </div>
   </nav>
 </template>
