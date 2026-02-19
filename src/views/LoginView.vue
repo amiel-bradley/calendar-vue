@@ -1,4 +1,6 @@
 <script setup>
+import LoginComp from '@/components/LoginComp.vue';
+
 
 
 </script>
@@ -7,7 +9,7 @@
 <template>
 
 
-<LoginView/>
+<LoginComp/>
 </template>
 
 
