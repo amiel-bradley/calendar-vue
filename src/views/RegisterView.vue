@@ -1,4 +1,7 @@
 <script setup>
+import RegisterComp from '@/components/RegisterComp.vue';
+
+
 
 
 </script>
@@ -6,12 +9,9 @@
 
 <template>
 
-<RegisterView/>
+    <RegisterComp />
 
 </template>
 
 
-<style scoped>
-
-
-</style>
+<style scoped></style>

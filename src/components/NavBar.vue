@@ -22,22 +22,14 @@ export default {
 <template>
   <nav class="navbar">
     <div class="nav-links">
-      <router-link
-        v-for="x in filteredNav"
-        :key="x.to"
-        :to="x.to"
-        class="nav-link"
-        active-class="active"
-      >
+      <router-link v-for="x in filteredNav" :key="x.to" :to="x.to" class="nav-link" active-class="active">
         {{ x.name }}
       </router-link>
     </div>
 
     <div class="auth-buttons">
-      <router-link to="/login" v-if="!isLoggedIn" class="btn-auth btn-login">
-        Se connecter
-      </router-link>
-      <router-link to="/" v-if="isLoggedIn" class="btn-auth btn-login">
+
+      <router-link to="/" v-if="!isLoggedIn" class="btn-auth btn-login">
         Se déconnecter
       </router-link>
       <!-- <button v-if="!isLoggedIn" @click="login1" class="btn-auth btn-login">
@@ -54,7 +46,8 @@ export default {
 <style scoped>
 .navbar {
   display: flex;
-  justify-content: space-between; /* liens à gauche, boutons à droite */
+  justify-content: space-between;
+  /* liens à gauche, boutons à droite */
   align-items: center;
   padding: 16px 32px;
   background-color: #ffffff;

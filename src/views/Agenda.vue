@@ -1,12 +1,14 @@
 <script setup>
 import { ref, watch } from "vue";
+
+
 import HeaderComp from "@/components/HeaderComp.vue";
 import MainComp from "@/components/MainComp.vue";
 
 /* --- Etat principal --- */
 const jour = ref("Monday");
 const isEdit = ref(false);
-const currentId = ref("");
+const currentTask = ref("");
 const isShow = ref(false);
 
 /* --- Tableau principal (avec localStorage) --- */
@@ -40,9 +42,12 @@ function addtask(newtask) {
 }
 
 /* --- Edit task --- */
-function edit(id) {
+function edit(task) {
   isEdit.value = true;
-  currentId.value = id;
+  currentTask.value = task;
+  
+  console.log(task);
+  
 }
 
 /* --- Changer jour sélectionné --- */
@@ -54,24 +59,17 @@ function receive(name) {
 function showw() {
   isShow.value = true;
 }
+
 </script>
 
 <template>
   <header>
-    <HeaderComp
-      :isShow="isShow"
-      :jour="jour"
-      @task="addtask"
-    />
+    <!-- Props pour jour.value qui sera récupéré dans le composant enfant headerComp -->
+    <HeaderComp :isShow="isShow" :jour="jour" @task="addtask" :currentTask="currentTask"/>
   </header>
 
   <main>
-    <MainComp
-      @modifier="edit"
-      :tab="days"
-      @envoie="receive"
-      @show="showw"
-    />
+    <MainComp @modifier="edit" :tab="days" @envoie="receive" @show="showw" />
   </main>
 </template>
 

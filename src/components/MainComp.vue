@@ -26,6 +26,8 @@ function addTask(day) {
 }
 
 function modif(id) {
+    console.log(id);
+
     emit('modifier', id)
 }
 
@@ -90,102 +92,91 @@ function closeModal() {
     </div>
 </template>
 
-
 <style scoped>
 .calendar-app {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #fff;
+    background-color: #ffffff;
     min-height: 100vh;
+    padding: 40px;
 }
 
 .calendar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
-    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
 }
 
 .app-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: #000;
-    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e3a8a;
 }
 
 .btn-new-event {
-    background-color: #2ecc71;
-    color: white;
+    background-color: #1e40af;
+    color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 6px;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background 0.2s;
+    transition: background 0.2s ease;
 }
 
 .btn-new-event:hover {
-    background-color: #27ae60;
+    background-color: #1e3a8a;
 }
 
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-
-    border-top: 1px solid #e0e0e0;
+    gap: 16px;
 }
 
 .day-column {
-    border-right: 1px solid #e0e0e0;
-    min-height: 200px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
-}
-
-.day-column:last-child {
-    border-right: none;
+    background: #f8fafc;
+    max-height: 600px;
+    /* limite la hauteur globale */
+    overflow: hidden;
 }
 
 .day-header {
-    padding: 15px;
+    padding: 12px;
     text-align: center;
-    font-weight: bold;
-    border-bottom: 1px solid #e0e0e0;
-    background-color: #fff;
-}
-
-.task-container {
-    padding: 10px;
-    flex-grow: 1;
-}
-
-.custom-task-card {
-    background-color: #e8f8f0 !important;
-    border: 1px solid #2ecc71 !important;
-    border-radius: 8px !important;
-    padding: 10px !important;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    color: #2c3e50;
-    min-height: 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.add-task-inline {
-    background: transparent;
-    border: none;
-    color: #ccc;
-    font-size: 20px;
-    padding: 5px;
+    font-weight: 600;
+    background-color: #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    color: #1e3a8a;
     cursor: pointer;
 }
 
+.task-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    /* scroll uniquement si tâches nombreuses */
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.add-task-inline {
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    background: #1e40af;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    margin: 10px;
+}
+
 .add-task-inline:hover {
-    color: #2ecc71;
+    background: #1e3a8a;
 }
 </style>

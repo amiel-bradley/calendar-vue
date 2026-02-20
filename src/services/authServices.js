@@ -15,6 +15,7 @@ function getFilteredNav(currentPath) {
   const navItems = [
     { name: "Home", to: "/" },
     { name: "Login", to: "/login" },
+    { name: "Dashbord", to: "/agenda" },
   ];
   return navItems;
 }

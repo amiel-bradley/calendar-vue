@@ -36,7 +36,7 @@ function confirmModal() {
   </div>
 </template>
 
-<style scoped>
+<!-- <style scoped>
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -101,4 +101,80 @@ function confirmModal() {
   background-color: #e5e7eb;
   color: black;
 }
-</style>
+</style> -->
+
+<style scoped>/* Modals.vue */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal-container {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.modal-header {
+  padding: 16px;
+  background-color: #1e40af;
+  color: #fff;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 16px;
+  color: #333;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 16px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background-color: #e5e7eb;
+  color: #1e40af;
+}
+
+.btn-secondary:hover {
+  background-color: #d1d5db;
+}
+
+.btn-primary {
+  background-color: #1e40af;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #1e3a8a;
+}</style>

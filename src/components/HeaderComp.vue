@@ -1,55 +1,86 @@
 <script setup>
-import { ref } from "vue";
-
+import { ref, computed } from "vue";
 const task = ref("");
+/**les prop definits : jour*/
+
+const props = defineProps({
+  jour: String,
+  isShow: Boolean,
+  currentTask: Object
+})
+
+/**a revoir  */
+// const localCurrentTask=ref(props.currentTask)
+// console.log(localCurrentTask.value);
+
+if (props.currentTask) {
+  task.value = props.currentTask.title
+  console.log(task.value);
+
+}
+const localisShow = ref(props.isShow)
+console.log(localisShow.value);
+
 
 const emits = defineEmits(["task"]);
 
+/**pour éviter d'insérrer des tâches vides */
+const faux = ref(false)
+const isFormValid = computed(() =>
+  task.value !== ''
+
+);
 function addTask() {
-  let tache = { id: Date.now(), title: task.value };
+  if (isFormValid.value) {
+    let tache = { id: Date.now(), title: task.value };
 
-  task.value = "";
+    task.value = "";
+    faux.value = false
+    emits("task", tache);
+  } else {
+    faux.value = true
+  }
+}
 
-  emits("task", tache);
+/**Suppression de l'input d'ajout */
+
+const supp = ref(true)
+const supInput = () => {
+  supp.value = localisShow.value
 }
 </script>
 
 <template>
-  <div id="div_p">
-    <div id="title">
-      <h2>Add a new event</h2>
-
-      <button>Supprimer</button>
+  <div>
+    <div id="div_p" v-show="isShow">
+      <div id="title">
+        <h2>Add a new event</h2>
+        <button @click="supInput">X</button>
+      </div>
+      <p>{{ jour }}</p>
+      <form @submit.prevent="addTask">
+        <input v-model="task" type="text" placeholder="New event" id="input" />
+        <button>submit</button>
+      </form>
+      <p v-if="faux">Entrer une tâche</p>
     </div>
-
-    <p>Monday</p>
-
-    <form @submit.prevent="addTask">
-      <input v-model="task" type="text" placeholder="New event" id="input" />
-
-      <button>submit</button>
-    </form>
   </div>
 </template>
 
+
+
+
 <style scoped>
-/* Conteneur principal */
 #div_p {
   width: 100%;
-  max-width: 420px;
-  background: #ffffff;
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-  margin: 40px auto;
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
+  max-width: 400px;
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  margin: 20px auto;
 }
 
-/* Titre + bouton supprimer */
 #title {
   display: flex;
   justify-content: space-between;
@@ -58,83 +89,57 @@ function addTask() {
 }
 
 #title h2 {
-  font-size: 1.4rem;
-  color: #2d3748;
-  font-weight: 600;
+  font-size: 1.25rem;
+  color: #1e3a8a;
 }
 
-/* Bouton Supprimer */
 #title button {
-  background: #e53e3e;
+  background: #dc2626;
   color: #fff;
   border: none;
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 6px;
   cursor: pointer;
-  transition:
-    background 0.2s ease,
-    transform 0.1s ease;
 }
 
 #title button:hover {
-  background: #c53030;
+  background: #b91c1c;
 }
 
-#title button:active {
-  transform: scale(0.95);
-}
-
-/* Paragraphe (message, info, erreur, etc.) */
-#div_p p {
-  margin-bottom: 16px;
-  font-size: 0.9rem;
-  color: #718096;
-}
-
-/* Formulaire */
 #div_p form {
   display: flex;
   gap: 10px;
 }
 
-/* Champ texte */
 #div_p input[type="text"] {
   flex: 1;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
   font-size: 0.95rem;
-  outline: none;
-  transition:
-    border 0.2s ease,
-    box-shadow 0.2s ease;
 }
 
 #div_p input[type="text"]:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.25);
+  border-color: #1e40af;
+  box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.2);
 }
 
-/* Bouton submit */
 #div_p form button {
-  padding: 12px 16px;
-  background: #667eea;
-  color: #ffffff;
+  background-color: #1e40af;
+  color: #fff;
+  border-radius: 6px;
   border: none;
-  border-radius: 10px;
-  font-weight: 600;
+  padding: 10px 16px;
   cursor: pointer;
-  transition:
-    background 0.2s ease,
-    transform 0.1s ease;
 }
 
 #div_p form button:hover {
-  background: #5a67d8;
+  background-color: #1e3a8a;
 }
 
-#div_p form button:active {
-  transform: scale(0.96);
+#div_p p {
+  color: #dc2626;
+  font-size: 0.9rem;
+  margin-top: 8px;
 }
 </style>
